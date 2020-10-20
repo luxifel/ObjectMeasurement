@@ -4,9 +4,8 @@ import utils
 
 ########################
 
-
 webcam = True
-path = '1,jpg'
+path = 'test.jpg'
 cap = cv2.VideoCapture(0)
 cap.set(10,160)
 cap.set(3,1920)
@@ -19,14 +18,14 @@ while True:
     if webcam:success,img = cap.read()
     else: img = cv2.imread(path)
 
-    imgCountours, conts = utils.getCountours(img, minArea=50000,filter=4)
-
+    imgContours, conts = utils.getCountours(img, minArea=50000,filter=4)
+  
     if len(conts) != 0:
         biggest = conts[0][2]
-        imgWarp = utils.warpImg(img, biggest, wP, hP)
-        imgContours2, conts2 = utils.getCountours(imgWarp, minArea=2000,filter=4,cThr=[50,50],draw=True)
-        
-        if len(conts) != 0:
+        imgWarp = utils.warpImg(imgContours, biggest, wP, hP)
+        imgContours2, conts2 = utils.getCountours(imgWarp, minArea=1000,filter=4,cThr=[50,50],draw=True)
+
+        if len(conts2) != 0:
             for obj in conts2:
                 cv2.polylines(imgContours2,[obj[2]], True,(0,255,0),2)
                 nPoints = utils.reorder(obj[2])
@@ -43,7 +42,6 @@ while True:
 
         cv2.imshow('A4', imgContours2)
     
-
-    img= cv2.resize(img,(0,0),None,0.5,0.5)
+    img= cv2.resize(img,(0,0),None,0.2,0.2)
     cv2.imshow('Original', img)
     cv2.waitKey(1)
