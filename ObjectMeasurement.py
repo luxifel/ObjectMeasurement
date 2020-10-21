@@ -4,7 +4,7 @@ import utils
 
 ########################
 
-webcam = True
+webcam = False
 path = 'test.jpg'
 cap = cv2.VideoCapture(0)
 cap.set(10,160)
